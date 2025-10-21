@@ -36,8 +36,15 @@ public class TeamController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    // Récupérer une équipe par son nom
     @GetMapping("/{name}")
-
+    public ResponseEntity<Team> getByName(@PathVariable String name) {
+        return repository.findAll().stream()
+                .filter(team -> team.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Team team, BindingResult bindingResult) {
